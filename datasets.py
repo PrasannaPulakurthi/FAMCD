@@ -6,11 +6,13 @@ def get_data_loaders(batch_size=512, image_size=32):
         transforms.Resize((image_size, image_size)),
         transforms.Grayscale(num_output_channels=3),
         transforms.ToTensor(),
+        transforms.Normalize(mean=[0.5, 0.5, 0.5], std=[0.5, 0.5, 0.5]),
     ])
 
     tf_svhn = transforms.Compose([
         transforms.Resize((image_size, image_size)),
         transforms.ToTensor(),
+        transforms.Normalize(mean=[0.5, 0.5, 0.5], std=[0.5, 0.5, 0.5]),
     ])
 
     mnist_train = datasets.MNIST(root="./data", train=True, transform=tf_mnist, download=True)
