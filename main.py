@@ -6,6 +6,7 @@ from utils import save_checkpoint, load_checkpoint, save_sample_images
 import torch.optim as optim
 from tqdm import trange
 
+
 def run(src='mnist', tgt='usps', epochs=20, ckpt_dir='./checkpoints'):
     domain = src + '_' + tgt
     device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
@@ -32,8 +33,8 @@ def run(src='mnist', tgt='usps', epochs=20, ckpt_dir='./checkpoints'):
     model_F2 = Classifier().to(device)
 
     # Optimizers
-    optimizer_G = optim.Adam(model_G.parameters(), lr=0.0002, betas=(0.5, 0.999))
-    optimizer_F = optim.Adam(list(model_F1.parameters()) + list(model_F2.parameters()), lr=0.0002, betas=(0.5, 0.999))
+    optimizer_G = optim.Adam(model_G.parameters(), lr=0.001, weight_decay=0.0005)
+    optimizer_F = optim.Adam(list(model_F1.parameters()) + list(model_F2.parameters()), lr=0.0002, weight_decay=0.0005)
 
     # Load checkpoint if available
     # load_checkpoint(model_G, model_F1, model_F2, optimizer_G, optimizer_F, f"{ckpt_dir}/checkpoint.pth")
