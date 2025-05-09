@@ -31,8 +31,8 @@ The code implementation of our SPIE 2022 paper "**Unsupervised domain adaptation
 3. SVHN
 
 ### Street Symbols
-1. SYNSIG
-2. GTSRB
+1. [SYNSIG](https://www.kaggle.com/datasets/meowmeowmeowmeowmeow/gtsrb-german-traffic-sign)
+2. [GTSRB](https://sid.erda.dk/public/archives/daaeac0d7ce1152aea9b61d9f1e19370/published-archive.html)
 
 ## Results
 ### Digits Datasets
