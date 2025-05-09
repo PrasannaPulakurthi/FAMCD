@@ -6,7 +6,7 @@ def evaluate(model_G, model_F1, model_F2, loader, device):
     model_G.eval()
     model_F1.eval()
     model_F2.eval()
-    correct = total = 0
+    correct1 = correct2 = total = 0
 
     with torch.no_grad():
         for x, y in loader:
@@ -14,16 +14,20 @@ def evaluate(model_G, model_F1, model_F2, loader, device):
             feats = model_G(x)
             preds1 = model_F1(feats)
             preds2 = model_F2(feats)
-            avg_preds = (F.softmax(preds1, dim=1) + F.softmax(preds2, dim=1)) / 2
-            pred_labels = avg_preds.argmax(dim=1)
-            correct += (pred_labels == y).sum().item()
+            avg_preds1 = F.softmax(preds1, dim=1) 
+            avg_preds2 = F.softmax(preds2, dim=1)
+            pred_labels1 = avg_preds1.argmax(dim=1)
+            pred_labels2 = avg_preds2.argmax(dim=1)
+            correct1 += (pred_labels1 == y).sum().item()
+            correct2 += (pred_labels2 == y).sum().item()
             total += y.size(0)
 
-    acc = 100. * correct / total
-    return acc
+    acc1 = 100. * correct1 / total
+    acc2 = 100. * correct2 / total
+    return acc1, acc2
 
 
-def train_epoch_step1(model_G, model_F1, model_F2, optimizer_G, optimizer_F, loader_src, loader_tgt, device, lambda_fa=0.25, lambda_h=0.5):
+def train_epoch_step1(model_G, model_F1, model_F2, optimizer_G, optimizer_F, loader_src, loader_tgt, device, lambda_fa=0.5, lambda_h=0.25):
     model_G.train()
     model_F1.train()
     model_F2.train()
@@ -39,9 +43,13 @@ def train_epoch_step1(model_G, model_F1, model_F2, optimizer_G, optimizer_F, loa
         out_t1 = model_F1(f_t)
         out_t2 = model_F2(f_t)
 
-        loss = source_classification_loss(out_s1, out_s2, y_s)
-        # loss += lambda_fa * feature_alignment_loss(f_s, f_t)
-        # loss += lambda_h * max_entropy_loss(out_t1, out_t2)
+        loss_ce = source_classification_loss(out_s1, out_s2, y_s)
+        loss_fa = feature_alignment_loss(f_s, f_t)
+        loss_h =  max_entropy_loss(out_t1, out_t2)
+
+        print(loss_ce,loss_fa,loss_h)
+
+        loss = loss_ce + lambda_fa*loss_fa + lambda_h*loss_h
 
         optimizer_G.zero_grad()
         optimizer_F.zero_grad()
@@ -60,7 +68,7 @@ def train_epoch_step2(model_G, model_F1, model_F2, optimizer_F, loader_src, load
 
         with torch.no_grad():
             f_s = model_G(x_s)
-            f_t = model_G(x_t)
+            f_t = model_G(x_t).detach()
 
         out_s1 = model_F1(f_s)
         out_s2 = model_F2(f_s)
@@ -75,12 +83,14 @@ def train_epoch_step2(model_G, model_F1, model_F2, optimizer_F, loader_src, load
         optimizer_F.step()
 
 
-def train_epoch_step3(model_G, model_F1, model_F2, optimizer_G, loader_tgt, device, repeat=4):
+def train_epoch_step3(model_G, model_F1, model_F2, optimizer_G, loader_tgt, device, repeat=5):
     model_G.train()
     model_F1.eval()
     model_F2.eval()
 
-    for _ in range(repeat):
+    for epoch in range(repeat):
+        running_loss = 0.0
+        count = 0
         for (x_t, _) in loader_tgt:
             x_t = x_t.to(device)
             f_t = model_G(x_t)
@@ -88,6 +98,14 @@ def train_epoch_step3(model_G, model_F1, model_F2, optimizer_G, loader_tgt, devi
             out_t2 = model_F2(f_t)
 
             loss = classifier_discrepancy(out_t1, out_t2)
+            running_loss += loss.item()
+            count += 1
             optimizer_G.zero_grad()
             loss.backward()
             optimizer_G.step()
+        avg_loss = running_loss / count
+        print(avg_loss)
+
+        if avg_loss<0.002:
+            print(f"Early stopping at epoch {epoch+1}")
+            break

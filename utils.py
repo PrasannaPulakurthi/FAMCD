@@ -48,4 +48,4 @@ def save_sample_images(loader_src, loader_tgt, output_dir="debug_images"):
     plt.title("Target Samples")
     plt.axis("off")
     plt.tight_layout()
-    plt.show()
+    # plt.show()
