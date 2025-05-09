@@ -2,7 +2,9 @@
 
 ### Option 1: Download the Dataset from the [Official Website](https://benchmark.ini.rub.de/). 
 
-To prepare the data, run the code below after downloading and extracting the following files from [here](https://sid.erda.dk/public/archives/daaeac0d7ce1152aea9b61d9f1e19370/published-archive.html) (GTSRB_Final_Training_Images.zip, GTSRB_Final_Test_Images.zip). 
+To prepare the data, run the code below after downloading and extracting the following files from [here](https://sid.erda.dk/public/archives/daaeac0d7ce1152aea9b61d9f1e19370/published-archive.html).
+
+(Download GTSRB_Final_Training_Images.zip and GTSRB_Final_Test_Images.zip)
 
 ```bash
 python process_gtsrb.py
