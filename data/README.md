@@ -1,6 +1,6 @@
 ## GTSRB
 
-### Option 1: Download from the [Official Website](https://benchmark.ini.rub.de/). 
+### Option 1: Download the Dataset from the [Official Website](https://benchmark.ini.rub.de/). 
 
 ```bash
 python process_gtsrb.py
