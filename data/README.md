@@ -12,7 +12,7 @@ python process_gtsrb.py
 
 ### Option 2: Download from [Kaggle](https://www.kaggle.com/datasets/meowmeowmeowmeowmeow/gtsrb-german-traffic-sign). 
 
-## SYNSET
+## SYNSIG
 
 ### Download the Dataset from the Website. 
 
