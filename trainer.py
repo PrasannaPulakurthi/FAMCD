@@ -47,7 +47,7 @@ def train_epoch_step1(model_G, model_F1, model_F2, optimizer_G, optimizer_F, loa
         loss_fa = feature_alignment_loss(f_s, f_t)
         loss_h =  max_entropy_loss(out_t1, out_t2)
 
-        print(loss_ce,loss_fa,loss_h)
+        # print(loss_ce,loss_fa,loss_h)
 
         loss = loss_ce + lambda_fa*loss_fa + lambda_h*loss_h
 
@@ -104,7 +104,7 @@ def train_epoch_step3(model_G, model_F1, model_F2, optimizer_G, loader_tgt, devi
             loss.backward()
             optimizer_G.step()
         avg_loss = running_loss / count
-        print(avg_loss)
+        # print(avg_loss)
 
         if avg_loss<0.002:
             print(f"Early stopping at epoch {epoch+1}")

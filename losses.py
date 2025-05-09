@@ -8,7 +8,8 @@ def feature_alignment_loss(f_src, f_tgt):
     return torch.mean(torch.abs(f_src - f_tgt))
 
 def max_entropy_loss(p1, p2):
-    LOG2C = torch.log2(torch.tensor(len(p1), dtype=torch.float32, device=p1.device))
+    C = p1.size(1)  # number of classes
+    LOG2C = torch.log2(torch.tensor(C, dtype=torch.float32, device=p1.device))
     def entropy(p):
         return -torch.sum(p * torch.log(p + 1e-6))/LOG2C
     # Conver to probablities

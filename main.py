@@ -6,6 +6,7 @@ from utils import save_checkpoint, load_checkpoint, save_sample_images
 import torch.optim as optim
 from tqdm import trange
 
+NUM_CLASSES = {'mnist':10, 'usps':10, 'svhn':10, 'gtsrb':43, 'synsig':43}
 
 def run(src='mnist', tgt='usps', epochs=20):
     domain = src + '_' + tgt
@@ -22,8 +23,8 @@ def run(src='mnist', tgt='usps', epochs=20):
 
     # Models
     model_G = FeatureGenerator().to(device)
-    model_F1 = Classifier().to(device)
-    model_F2 = Classifier().to(device)
+    model_F1 = Classifier(num_classes=NUM_CLASSES[src]).to(device)
+    model_F2 = Classifier(num_classes=NUM_CLASSES[src]).to(device)
 
     # Optimizers
     optimizer_G = optim.Adam(model_G.parameters(), lr=0.0002, betas=(0.5, 0.999), weight_decay=0.0005)
@@ -52,6 +53,11 @@ def run(src='mnist', tgt='usps', epochs=20):
 
 if __name__ == '__main__':
     epoch = 25
-    run(src='mnist', tgt='usps', epochs=epoch)
-    run(src='usps', tgt='mnist', epochs=epoch)
-    run(src='svhn', tgt='mnist', epochs=epoch)
+    # Traffic Sign Datasets
+    run(src='synsig', tgt='gtsrb', epochs=epoch)
+    run(src='gtsrb', tgt='synsig', epochs=epoch)
+
+    # Digits Datasets
+    # run(src='mnist', tgt='usps', epochs=epoch)
+    # run(src='usps', tgt='mnist', epochs=epoch)
+    # run(src='svhn', tgt='mnist', epochs=epoch)

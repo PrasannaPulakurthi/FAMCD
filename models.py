@@ -30,14 +30,14 @@ class FeatureGenerator(nn.Module):
 
 
 class Classifier(nn.Module):
-    def __init__(self, prob=0.5):
+    def __init__(self, num_classes=10, prob=0.5):
         super(Classifier, self).__init__()
         self.fc1 = nn.Linear(8192, 3072)
         self.bn1_fc = nn.BatchNorm1d(3072)
         self.fc2 = nn.Linear(3072, 2048)
         self.bn2_fc = nn.BatchNorm1d(2048)
-        self.fc3 = nn.Linear(2048, 10)
-        self.bn_fc3 = nn.BatchNorm1d(10)
+        self.fc3 = nn.Linear(2048, num_classes)
+        self.bn_fc3 = nn.BatchNorm1d(num_classes)
         self.prob = prob
 
     def set_lambda(self, lambd):
