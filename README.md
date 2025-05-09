@@ -3,6 +3,7 @@
 <p align="center">
   <a href="https://doi.org/10.1117/12.2646422"><img src="https://img.shields.io/badge/SPIE-2025-yellow.svg" alt="SPIE 2025"></a>
   <a href="https://paperswithcode.com/paper/unsupervised-domain-adaptation-using-feature-2"><img src="https://img.shields.io/badge/Papers%20with%20Code-FAMCD-blue"></a>
+  <a href="LICENSE"><img src="https://img.shields.io/badge/License-MIT-yellow.svg" alt="License: MIT"></a>
 </p>
 
 
