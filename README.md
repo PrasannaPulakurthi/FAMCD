@@ -24,6 +24,9 @@ The code implementation of our SPIE 2022 paper "**Unsupervised domain adaptation
   </a>
 </p>
 
+## Results
+### Digits Datasets
+<img src="assets/digits.png" alt="Digits Dataset Results" width="500"/>
 
 ## Citation
 Please consider citing our paper in your publications if it helps your research. The following is a BibTeX reference.
