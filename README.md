@@ -24,10 +24,6 @@ The code implementation of our SPIE 2022 paper "**Unsupervised domain adaptation
   </a>
 </p>
 
-## Results
-### Digits Datasets
-<p align="center"><img src="assets/digits.png" alt="Digits Dataset Results" width="600"/></p>
-
 ## Datasets
 ### Digits Datasets
 1. MNIST
@@ -37,6 +33,10 @@ The code implementation of our SPIE 2022 paper "**Unsupervised domain adaptation
 ### Street Symbols
 1. SYNSIG
 2. GTSRB
+
+## Results
+### Digits Datasets
+<p align="center"><img src="assets/digits.png" alt="Digits Dataset Results" width="600"/></p>
 
 ## Citation
 Please consider citing our paper in your publications if it helps your research. The following is a BibTeX reference.
