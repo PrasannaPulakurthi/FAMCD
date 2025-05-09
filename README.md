@@ -30,13 +30,16 @@ The code implementation of our SPIE 2022 paper "**Unsupervised domain adaptation
 2. USPS
 3. SVHN
 
-### Street Symbols
+### Traffic Sign Datasets
 1. [SYNSIG](https://synset.de/datasets/synset-signset-ger/)
 2. [GTSRB](https://benchmark.ini.rub.de/gtsrb_dataset.html)
 
 ## Results
 ### Digits Datasets
 <p align="center"><img src="assets/digits.png" alt="Digits Dataset Results" width="600"/></p>
+
+### Traffic Sign Datasets
+
 
 ## Citation
 Please consider citing our paper in your publications if it helps your research. The following is a BibTeX reference.
