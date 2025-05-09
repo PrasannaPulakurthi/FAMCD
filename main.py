@@ -5,15 +5,16 @@ from trainer import train_epoch_step1, train_epoch_step2, train_epoch_step3, eva
 from utils import save_checkpoint, load_checkpoint, save_sample_images
 import torch.optim as optim
 from tqdm import trange
+import argparse
 
 NUM_CLASSES = {'mnist':10, 'usps':10, 'svhn':10, 'gtsrb':43, 'synsig':43}
 
-def run(src='mnist', tgt='usps', epochs=20):
+def run(src='mnist', tgt='usps', image_size=32, epochs=20):
     domain = src + '_' + tgt
     device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
     ckpt_dir = './checkpoints/' + domain
     # Load data
-    loaders = get_data_loaders(batch_size=128, image_size=32)
+    loaders = get_data_loaders(batch_size=128, image_size=image_size)
     loader_src, loader_src_test = loaders[src]
     loader_tgt, loader_tgt_test = loaders[tgt]
 
@@ -52,12 +53,12 @@ def run(src='mnist', tgt='usps', epochs=20):
 
 
 if __name__ == '__main__':
-    epoch = 25
-    # Traffic Sign Datasets
-    run(src='synsig', tgt='gtsrb', epochs=epoch)
-    run(src='gtsrb', tgt='synsig', epochs=epoch)
+    parser = argparse.ArgumentParser(description="Train Domain Adaptation Model")
+    parser.add_argument('--src', type=str, default='mnist', help='Source domain')
+    parser.add_argument('--tgt', type=str, default='usps', help='Target domain')
+    parser.add_argument('--image_size', type=int, default=32, help='Input image size')
+    parser.add_argument('--epochs', type=int, default=25, help='Number of training epochs')
+    args = parser.parse_args()
+    
+    run(src=args.src, tgt=args.tgt, image_size=args.image_size, epochs=args.epochs)
 
-    # Digits Datasets
-    # run(src='mnist', tgt='usps', epochs=epoch)
-    # run(src='usps', tgt='mnist', epochs=epoch)
-    # run(src='svhn', tgt='mnist', epochs=epoch)
