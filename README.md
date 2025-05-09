@@ -12,11 +12,11 @@
   <a href="https://paperswithcode.com/sota/domain-adaptation-on-usps-to-mnist?p=unsupervised-domain-adaptation-using-feature-2">
     <img src="https://img.shields.io/endpoint.svg?url=https://paperswithcode.com/badge/unsupervised-domain-adaptation-using-feature-2/domain-adaptation-on-usps-to-mnist">
   </a>
-  <a href="https://paperswithcode.com/sota/image-generation-on-stl-10?p=enhancing-gans-with-mmd-neural-architecture">
-    <img src="https://img.shields.io/endpoint.svg?url=https://paperswithcode.com/badge/enhancing-gans-with-mmd-neural-architecture/image-generation-on-stl-10">
+  <a href="https://paperswithcode.com/sota/domain-adaptation-on-mnist-to-usps?p=unsupervised-domain-adaptation-using-feature-2">
+    <img src="https://img.shields.io/endpoint.svg?url=https://paperswithcode.com/badge/unsupervised-domain-adaptation-using-feature-2/domain-adaptation-on-mnist-to-usps">
   </a>
-  <a href="https://paperswithcode.com/sota/image-generation-on-celeba-64x64?p=enhancing-gans-with-mmd-neural-architecture">
-    <img src="https://img.shields.io/endpoint.svg?url=https://paperswithcode.com/badge/enhancing-gans-with-mmd-neural-architecture/image-generation-on-celeba-64x64">
+  <a href="https://paperswithcode.com/sota/domain-adaptation-on-svhn-to-mnist?p=unsupervised-domain-adaptation-using-feature-2">
+    <img src="https://img.shields.io/endpoint.svg?url=https://paperswithcode.com/badge/unsupervised-domain-adaptation-using-feature-2/domain-adaptation-on-svhn-to-mnist">
   </a>
 </p>
 
