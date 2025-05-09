@@ -13,9 +13,11 @@
   <a href="https://paperswithcode.com/sota/domain-adaptation-on-usps-to-mnist?p=unsupervised-domain-adaptation-using-feature-2">
     <img src="https://img.shields.io/endpoint.svg?url=https://paperswithcode.com/badge/unsupervised-domain-adaptation-using-feature-2/domain-adaptation-on-usps-to-mnist">
   </a>
+  
   <a href="https://paperswithcode.com/sota/domain-adaptation-on-mnist-to-usps?p=unsupervised-domain-adaptation-using-feature-2">
     <img src="https://img.shields.io/endpoint.svg?url=https://paperswithcode.com/badge/unsupervised-domain-adaptation-using-feature-2/domain-adaptation-on-mnist-to-usps">
   </a>
+  
   <a href="https://paperswithcode.com/sota/domain-adaptation-on-svhn-to-mnist?p=unsupervised-domain-adaptation-using-feature-2">
     <img src="https://img.shields.io/endpoint.svg?url=https://paperswithcode.com/badge/unsupervised-domain-adaptation-using-feature-2/domain-adaptation-on-svhn-to-mnist">
   </a>
