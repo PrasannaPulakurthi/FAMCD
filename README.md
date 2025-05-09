@@ -6,6 +6,21 @@
 </p>
 
 
+## Leaderboard Rankings
+
+<p align="center">
+  <a href="https://paperswithcode.com/sota/domain-adaptation-on-usps-to-mnist?p=unsupervised-domain-adaptation-using-feature-2">
+    <img src="https://img.shields.io/endpoint.svg?url=https://paperswithcode.com/badge/unsupervised-domain-adaptation-using-feature-2/domain-adaptation-on-usps-to-mnist">
+  </a>
+  <a href="https://paperswithcode.com/sota/image-generation-on-stl-10?p=enhancing-gans-with-mmd-neural-architecture">
+    <img src="https://img.shields.io/endpoint.svg?url=https://paperswithcode.com/badge/enhancing-gans-with-mmd-neural-architecture/image-generation-on-stl-10">
+  </a>
+  <a href="https://paperswithcode.com/sota/image-generation-on-celeba-64x64?p=enhancing-gans-with-mmd-neural-architecture">
+    <img src="https://img.shields.io/endpoint.svg?url=https://paperswithcode.com/badge/enhancing-gans-with-mmd-neural-architecture/image-generation-on-celeba-64x64">
+  </a>
+</p>
+
+
 ## Citation
 Please consider citing our paper in your publications if it helps your research. The following is a BibTeX reference.
 ```bibtex
