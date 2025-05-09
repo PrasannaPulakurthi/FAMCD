@@ -13,7 +13,7 @@ os.makedirs(output_dir, exist_ok=True)
 # --- Load CSV with semicolon delimiter ---
 df = pd.read_csv(csv_file, sep=';')
 
-# --- Move images into class folders ---
+# --- Move test images into class folders ---
 for _, row in df.iterrows():
     filename = row['Filename']
     class_id = str(row['ClassId']).zfill(5)  # ensure folder names are zero-padded
@@ -31,7 +31,7 @@ output_dir = "./GTSRB/train"
 
 os.makedirs(output_dir, exist_ok=True)
 
-# Loop over all subfolders in image_dir
+# --- Loop over all train subfolders in image_dir ---
 for folder_name in os.listdir(image_dir):
     src = os.path.join(image_dir, folder_name)
     dst = os.path.join(output_dir, folder_name)
