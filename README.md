@@ -32,7 +32,7 @@ The code implementation of our SPIE 2022 paper "**Unsupervised domain adaptation
 
 ### Street Symbols
 1. [SYNSIG](https://synset.de/datasets/synset-signset-ger/)
-2. [GTSRB](https://sid.erda.dk/public/archives/daaeac0d7ce1152aea9b61d9f1e19370/published-archive.html)
+2. [GTSRB](https://benchmark.ini.rub.de/gtsrb_dataset.html)
 
 ## Results
 ### Digits Datasets
