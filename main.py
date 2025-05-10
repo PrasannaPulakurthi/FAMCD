@@ -7,12 +7,26 @@ import torch.optim as optim
 from tqdm import trange
 import argparse
 
-NUM_CLASSES = {'mnist':10, 'usps':10, 'svhn':10, 'gtsrb':43, 'synsig':43}
+NUM_CLASSES = {'mnist':10, 'usps':10, 'svhn':10, 'gtsrb':43, 'synsig':43,'real':12,'syn':12}
+DATA_TYPE = {'digits': ['mnist','usps','svhn'],'traffic_signs':['gtsrb','synsig'],'syn2real':['real','syn']}
 
 def count_parameters(model):
     return sum(p.numel() for p in model.parameters() if p.requires_grad) / 1e6
 
-def run(batch_size=128, src='mnist', tgt='usps', image_size=32, epochs=20):
+def get_domain_type(domain_name):
+    for dtype, domains in DATA_TYPE.items():
+        if domain_name in domains:
+            return dtype
+    return None  # or raise an error
+
+def run(args):
+    batch_size=args.batch_size
+    src=args.src
+    tgt=args.tgt 
+    image_size=args.image_size
+    epochs=args.epochs
+    lambda_fa=args.lambda_fa
+    
     domain = src + '_' + tgt
     device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
     ckpt_dir = './checkpoints/' + domain
@@ -25,7 +39,7 @@ def run(batch_size=128, src='mnist', tgt='usps', image_size=32, epochs=20):
     save_sample_images(loader_src, loader_tgt)
 
     # Models
-    model_G, model_F1, model_F2 = ModelFactory(device=device, num_classes=NUM_CLASSES[src], image_size=image_size)
+    model_G, model_F1, model_F2 = ModelFactory(get_domain_type(src), device=device, num_classes=NUM_CLASSES[src], image_size=image_size)
 
     print(f"G parameters: {count_parameters(model_G):.2f}M")
     print(f"F1 parameters: {count_parameters(model_F1):.2f}M")
@@ -44,9 +58,9 @@ def run(batch_size=128, src='mnist', tgt='usps', image_size=32, epochs=20):
 
     # Training
     for epoch in trange(epochs, desc="Training Epochs"):
-        train_epoch_step1(model_G, model_F1, model_F2, optimizer_G, optimizer_F, loader_src, loader_tgt, device)
+        train_epoch_step1(model_G, model_F1, model_F2, optimizer_G, optimizer_F, loader_src, loader_tgt, device, lambda_fa)
         train_epoch_step2(model_G, model_F1, model_F2, optimizer_F, loader_src, loader_tgt, device)
-        train_epoch_step3(model_G, model_F1, model_F2, optimizer_G, loader_tgt, device)
+        train_epoch_step3(model_G, model_F1, model_F2, optimizer_G, loader_src, loader_tgt, device)
         scheduler_G.step()
         scheduler_F.step()
 
@@ -70,7 +84,8 @@ if __name__ == '__main__':
     parser.add_argument('--image_size', type=int, default=32, help='Input image size')
     parser.add_argument('--batch_size', type=int, default=512, help='batch size')
     parser.add_argument('--epochs', type=int, default=30, help='Number of training epochs')
+    parser.add_argument('--lambda_fa', type=float, default=0.25, help='Number of training epochs')
     args = parser.parse_args()
     
-    run(batch_size=args.batch_size, src=args.src, tgt=args.tgt, image_size=args.image_size, epochs=args.epochs)
+    run(args)
 

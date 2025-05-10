@@ -1,11 +1,29 @@
+import torch
 import torch.nn as nn
 import torch.nn.functional as F
+from torchvision.models import resnet101
 
+class ResNet101FeatureExtractor(nn.Module):
+    def __init__(self, pretrained=False, output_dim=3072):
+        super(ResNet101FeatureExtractor, self).__init__()
+        backbone = resnet101(pretrained=pretrained)
+
+        # Remove the classification head (FC layer)
+        self.features = nn.Sequential(*list(backbone.children())[:-1])  # Output: (B, 2048, 1, 1)
+
+        # Project the 2048-dim feature vector to output_dim (optional)
+        self.fc = nn.Linear(2048, output_dim)
+        self.bn = nn.BatchNorm1d(output_dim)
+
+    def forward(self, x):
+        x = self.features(x).view(x.size(0), -1)  # Flatten (B, 2048)
+        x = F.relu(self.bn(self.fc(x)))           # Project and normalize
+        x = F.dropout(x, training=self.training)
+        return x
 
 class FeatureGenerator(nn.Module):
-    def __init__(self, downsample, num_channals, image_size=32):
+    def __init__(self, num_channals, image_size=32):
         super(FeatureGenerator, self).__init__()
-        self.downsample=downsample
         self.conv1 = nn.Conv2d(3, num_channals[0], kernel_size=5, stride=1, padding=2)
         self.conv1_2 = nn.Conv2d(num_channals[0], num_channals[0], kernel_size=5, stride=1, padding=2)
         self.bn1 = nn.BatchNorm2d(num_channals[0])
@@ -15,10 +33,7 @@ class FeatureGenerator(nn.Module):
         self.conv3 = nn.Conv2d(num_channals[1], num_channals[2], kernel_size=5, stride=1, padding=2)
         self.conv3_2 = nn.Conv2d(num_channals[2], num_channals[2], kernel_size=5, stride=1, padding=2)
         self.bn3 = nn.BatchNorm2d(num_channals[2])
-        if self.downsample:
-            self.flat_dim = int(num_channals[2]*(image_size*image_size/64))
-        else:
-            self.flat_dim = int(num_channals[2]*(image_size*image_size/16))
+        self.flat_dim = int(num_channals[2]*(image_size*image_size/16))
         self.fc1 = nn.Linear(self.flat_dim, 3072)
         self.bn1_fc = nn.BatchNorm1d(3072)
 
@@ -27,11 +42,7 @@ class FeatureGenerator(nn.Module):
         x = F.max_pool2d(F.relu(self.bn1(self.conv1_2(x))), stride=2, kernel_size=3, padding=1)
         x = F.relu(self.conv2(x))
         x = F.max_pool2d(F.relu(self.bn2(self.conv2_2(x))), stride=2, kernel_size=3, padding=1)
-        if self.downsample:
-            x = F.relu(self.conv3(x))
-            x = F.max_pool2d(F.relu(self.bn3(self.conv3_2(x))), stride=2, kernel_size=3, padding=1)
-        else:
-            x = F.relu(self.bn3(self.conv3(x)))
+        x = F.relu(self.bn3(self.conv3(x)))
         x = x.view(x.size(0), self.flat_dim)
         x = F.relu(self.bn1_fc(self.fc1(x)))
         x = F.dropout(x, training=self.training)
@@ -39,14 +50,8 @@ class FeatureGenerator(nn.Module):
 
 
 class Classifier(nn.Module):
-    def __init__(self, downsample, num_channals, num_classes=10, image_size=32, prob=0.5):
+    def __init__(self, num_classes=10, prob=0.5):
         super(Classifier, self).__init__()
-        if downsample:
-            self.flat_dim = int(num_channals[2]*(image_size*image_size/64))
-        else:
-            self.flat_dim = int(num_channals[2]*(image_size*image_size/16))
-        self.fc1 = nn.Linear(self.flat_dim, 3072)
-        self.bn1_fc = nn.BatchNorm1d(3072)
         self.fc2 = nn.Linear(3072, 2048)
         self.bn2_fc = nn.BatchNorm1d(2048)
         self.fc3 = nn.Linear(2048, num_classes)
@@ -61,10 +66,11 @@ class Classifier(nn.Module):
         x = self.fc3(x)
         return x
     
-def ModelFactory(device, num_classes=10, image_size=32):
-    downsample = True if image_size>32 else False
-    num_channals = [96, 114, 256] if image_size>32 else [64, 64, 128]
-    model_G = FeatureGenerator(downsample=downsample, num_channals=num_channals, image_size=image_size).to(device)
-    model_F1 = Classifier(downsample=downsample, num_channals=num_channals, num_classes=num_classes, image_size=image_size).to(device)
-    model_F2 = Classifier(downsample=downsample, num_channals=num_channals, num_classes=num_classes, image_size=image_size).to(device)
+def ModelFactory(domain_name, device, num_classes=10, image_size=32):
+    if domain_name=='syn2real':
+        model_G = ResNet101FeatureExtractor(pretrained=True).to(device)
+    else:
+        model_G = FeatureGenerator(num_channals=[64, 64, 128], image_size=image_size).to(device)
+    model_F1 = Classifier(num_classes=num_classes).to(device)
+    model_F2 = Classifier(num_classes=num_classes).to(device)
     return model_G,model_F1,model_F2
