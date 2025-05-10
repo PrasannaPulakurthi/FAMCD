@@ -34,9 +34,10 @@ The code implementation of our SPIE 2022 paper "**Unsupervised domain adaptation
 1. [SYNSIG](https://synset.de/datasets/synset-signset-ger/)
 2. [GTSRB](https://benchmark.ini.rub.de/gtsrb_dataset.html)
 
-## Synthetic-to-Real
+### Synthetic-to-Real
 1. [SYN2REAL](https://github.com/VisionLearningGroup/taskcv-2017-public)
 
+## Results
 ### Digits Datasets
 <p align="center"><img src="assets/digits.png" alt="Digits Dataset Results" width="600"/></p>
 
