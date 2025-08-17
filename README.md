@@ -23,7 +23,7 @@ The code implementation of our 2022 work on "**Unsupervised domain adaptation us
 ## Citation
 Please consider citing our paper in your publications if it helps your research. The following is a BibTeX reference.
 ```bibtex
-@inproceedings{10.1117/12.2646422,
+@inproceedings{pulakurthi2022unsupervised,
 author = {Prasanna Reddy Pulakurthi and Sohail A. Dianat and Majid Rabbani and Suya You and Raghuveer M. Rao},
 title = {{Unsupervised domain adaptation using feature aligned maximum classifier discrepancy}},
 volume = {12227},
