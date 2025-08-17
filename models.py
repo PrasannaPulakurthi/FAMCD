@@ -3,24 +3,6 @@ import torch.nn as nn
 import torch.nn.functional as F
 from torchvision.models import resnet101
 
-class ResNet101FeatureExtractor(nn.Module):
-    def __init__(self, pretrained=False, output_dim=3072):
-        super(ResNet101FeatureExtractor, self).__init__()
-        backbone = resnet101(pretrained=pretrained)
-
-        # Remove the classification head (FC layer)
-        self.features = nn.Sequential(*list(backbone.children())[:-1])  # Output: (B, 2048, 1, 1)
-
-        # Project the 2048-dim feature vector to output_dim (optional)
-        self.fc = nn.Linear(2048, output_dim)
-        self.bn = nn.BatchNorm1d(output_dim)
-
-    def forward(self, x):
-        x = self.features(x).view(x.size(0), -1)  # Flatten (B, 2048)
-        x = F.relu(self.bn(self.fc(x)))           # Project and normalize
-        x = F.dropout(x, training=self.training)
-        return x
-
 class FeatureGenerator(nn.Module):
     def __init__(self, num_channals, image_size=32):
         super(FeatureGenerator, self).__init__()
@@ -66,11 +48,8 @@ class Classifier(nn.Module):
         x = self.fc3(x)
         return x
     
-def ModelFactory(domain_name, device, num_classes=10, image_size=32):
-    if domain_name=='syn2real':
-        model_G = ResNet101FeatureExtractor(pretrained=True).to(device)
-    else:
-        model_G = FeatureGenerator(num_channals=[64, 64, 128], image_size=image_size).to(device)
+def ModelFactory(device, num_classes=10, image_size=32):
+    model_G = FeatureGenerator(num_channals=[64, 64, 128], image_size=image_size).to(device)
     model_F1 = Classifier(num_classes=num_classes).to(device)
     model_F2 = Classifier(num_classes=num_classes).to(device)
     return model_G,model_F1,model_F2

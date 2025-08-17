@@ -1,5 +1,5 @@
 import torch
-from models import FeatureGenerator, Classifier, ModelFactory
+from models import ModelFactory
 from datasets import get_data_loaders
 from trainer import train_epoch_step1, train_epoch_step2, train_epoch_step3, evaluate
 from utils import save_checkpoint, load_checkpoint, save_sample_images
@@ -7,17 +7,11 @@ import torch.optim as optim
 from tqdm import trange
 import argparse
 
-NUM_CLASSES = {'mnist':10, 'usps':10, 'svhn':10, 'gtsrb':43, 'synsig':43,'real':12,'syn':12}
-DATA_TYPE = {'digits': ['mnist','usps','svhn'],'traffic_signs':['gtsrb','synsig'],'syn2real':['real','syn']}
+NUM_CLASSES = {'mnist':10, 'usps':10, 'svhn':10}
+DATA_TYPE = {'digits': ['mnist','usps','svhn']}
 
 def count_parameters(model):
     return sum(p.numel() for p in model.parameters() if p.requires_grad) / 1e6
-
-def get_domain_type(domain_name):
-    for dtype, domains in DATA_TYPE.items():
-        if domain_name in domains:
-            return dtype
-    return None  # or raise an error
 
 def run(args):
     batch_size=args.batch_size
@@ -39,7 +33,7 @@ def run(args):
     save_sample_images(loader_src, loader_tgt)
 
     # Models
-    model_G, model_F1, model_F2 = ModelFactory(get_domain_type(src), device=device, num_classes=NUM_CLASSES[src], image_size=image_size)
+    model_G, model_F1, model_F2 = ModelFactory(device=device, num_classes=NUM_CLASSES[src], image_size=image_size)
 
     print(f"G parameters: {count_parameters(model_G):.2f}M")
     print(f"F1 parameters: {count_parameters(model_F1):.2f}M")
