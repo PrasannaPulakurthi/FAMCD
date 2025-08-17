@@ -5,7 +5,7 @@
   <a href="LICENSE"><img src="https://img.shields.io/badge/License-MIT-yellow.svg" alt="License: MIT"></a>
 </p>
 
-The code implementation of our SPIE 2022 paper "**Unsupervised domain adaptation using feature aligned maximum classifier discrepancy**", by [Prasanna Reddy Pulakurthi](https://www.prasannapulakurthi.com/), [Sohail A. Dianat](https://www.rit.edu/directory/sadeee-sohail-dianat), [Majid Rabbani](https://www.rit.edu/directory/mxreee-majid-rabbani), [Suya You](https://scholar.google.com/citations?user=LkpA-L0AAAAJ&hl=en), and [Raghuveer M. Rao](https://ieeexplore.ieee.org/author/37281258600). [[PDF]](https://doi.org/10.1117/12.2646422)
+The code implementation of our 2022 work on "**Unsupervised domain adaptation using feature aligned maximum classifier discrepancy**", by [Prasanna Reddy Pulakurthi](https://www.prasannapulakurthi.com/), [Sohail A. Dianat](https://www.rit.edu/directory/sadeee-sohail-dianat), [Majid Rabbani](https://www.rit.edu/directory/mxreee-majid-rabbani), [Suya You](https://scholar.google.com/citations?user=LkpA-L0AAAAJ&hl=en), and [Raghuveer M. Rao](https://ieeexplore.ieee.org/author/37281258600). [[PDF]](https://doi.org/10.1117/12.2646422)
 
 
 ## Datasets
